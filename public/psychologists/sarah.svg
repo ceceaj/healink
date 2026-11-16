@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240" fill="none">
+  <defs>
+    <linearGradient id="bgSarah" x1="0" y1="0" x2="240" y2="240" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFC8DD" />
+      <stop offset="100%" stop-color="#F4EEF8" />
+    </linearGradient>
+  </defs>
+  <rect width="240" height="240" rx="48" fill="url(#bgSarah)" />
+  <circle cx="120" cy="120" r="102" fill="#FFFFFF" fill-opacity="0.7" />
+  <!--Long Wavy Hair Back-->
+  <path d="M56 122C56 74 84 48 120 48C156 48 184 74 184 122C184 162 172 190 156 196H84C68 190 56 162 56 122Z" fill="#2B2640" />
+  <!--Pastel Cardigan & White Blouse-->
+  <path d="M44 240C48 190 78 168 120 168C162 168 192 190 196 240H44Z" fill="#6B5779" />
+  <path d="M94 168L120 226L146 168H94Z" fill="#FFF0F5" />
+  <!--Neck-->
+  <rect x="108" y="146" width="24" height="28" rx="10" fill="#FFE5D9" />
+  <!--Face-->
+  <ellipse cx="120" cy="112" rx="40" ry="44" fill="#FFE5D9" />
+  <!--Hair Bangs-->
+  <path d="M78 106C80 76 100 62 124 62C146 62 162 78 162 106C150 88 134 80 112 84C94 87 84 96 78 106Z" fill="#2B2640" />
+  <!--Eyes-->
+  <circle cx="104" cy="112" r="3.4" fill="#1D1A39" />
+  <circle cx="136" cy="112" r="3.4" fill="#1D1A39" />
+  <!--Eyebrows-->
+  <path d="M96 101C100 98 108 98 112 101" stroke="#2B2640" stroke-width="2.5" stroke-linecap="round" />
+  <path d="M128 101C132 98 140 98 144 101" stroke="#2B2640" stroke-width="2.5" stroke-linecap="round" />
+  <!--Blush-->
+  <circle cx="94" cy="123" r="6" fill="#FF9ebb" fill-opacity="0.5" />
+  <circle cx="146" cy="123" r="6" fill="#FF9ebb" fill-opacity="0.5" />
+  <!--Smile-->
+  <path d="M108 129C113 136 127 136 132 129" stroke="#1D1A39" stroke-width="3" stroke-linecap="round" />
+  <!--Earrings-->
+  <circle cx="79" cy="122" r="4" fill="#FFC8DD" />
+  <circle cx="161" cy="122" r="4" fill="#FFC8DD" />
+</svg>

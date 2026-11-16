@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    color: #1D1A39;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: none;
+  }
+
+  /* Enforce soft, approachable rounded corners globally on interactive elements & cards */
+  button,
+  input,
+  textarea,
+  select {
+    @apply rounded-2xl;
+  }
+}
+
+@layer utilities {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .pt-safe {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .soothing-gradient-bg {
+    background: linear-gradient(
+      180deg,
+      #F8EDF9 0%,
+      #FFF2F7 28%,
+      #FFF9FA 55%,
+      #FAFAFA 85%,
+      #FFFFFF 100%
+    );
+  }
+}
+

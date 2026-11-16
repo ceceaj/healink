@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240" fill="none">
+  <defs>
+    <linearGradient id="bgNadya" x1="0" y1="0" x2="240" y2="240" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E2D1F0" />
+      <stop offset="100%" stop-color="#FFC8DD" />
+    </linearGradient>
+  </defs>
+  <rect width="240" height="240" rx="48" fill="url(#bgNadya)" />
+  <circle cx="120" cy="120" r="102" fill="#FFF9FC" fill-opacity="0.7" />
+  <!--Hijab / Hair Back-->
+  <path d="M58 128C58 84 85 52 120 52C155 52 182 84 182 128C182 155 170 182 120 182C70 182 58 155 58 128Z" fill="#6B5779" />
+  <!--Blazer / Doctor Coat-->
+  <path d="M42 240C46 190 76 168 120 168C164 168 194 190 198 240H42Z" fill="#FFFFFF" />
+  <path d="M92 170L120 218L148 170" fill="#CDB4DB" />
+  <path d="M75 174L108 240H42C45 204 58 184 75 174Z" fill="#1D1A39" fill-opacity="0.06" />
+  <!--Stethoscope / Lanyard-->
+  <path d="M94 176C94 202 146 202 146 176" stroke="#6B5779" stroke-width="4" stroke-linecap="round" />
+  <circle cx="136" cy="204" r="7" fill="#FFC8DD" stroke="#6B5779" stroke-width="3" />
+  <!--Face-->
+  <ellipse cx="120" cy="116" rx="40" ry="44" fill="#FFE5D9" />
+  <!--Hijab Front Frame-->
+  <path d="M76 108C76 78 96 60 120 60C144 60 164 78 164 108C156 90 140 82 120 82C100 82 84 90 76 108Z" fill="#8E7DBE" />
+  <!--Neck Scarf Wrap-->
+  <path d="M84 146C96 160 144 160 156 146C160 164 146 178 120 178C94 178 80 164 84 146Z" fill="#6B5779" />
+  <!--Glasses-->
+  <rect x="92" y="104" width="22" height="15" rx="6" stroke="#1D1A39" stroke-width="2.8" fill="#FFFFFF" fill-opacity="0.35" />
+  <rect x="126" y="104" width="22" height="15" rx="6" stroke="#1D1A39" stroke-width="2.8" fill="#FFFFFF" fill-opacity="0.35" />
+  <line x1="114" y1="111" x2="126" y2="111" stroke="#1D1A39" stroke-width="2.8" />
+  <!--Eyes-->
+  <circle cx="103" cy="111.5" r="3" fill="#1D1A39" />
+  <circle cx="137" cy="111.5" r="3" fill="#1D1A39" />
+  <!--Eyebrows-->
+  <path d="M95 100C99 97 107 97 111 100" stroke="#4A4E69" stroke-width="2.5" stroke-linecap="round" />
+  <path d="M129 100C133 97 141 97 145 100" stroke="#4A4E69" stroke-width="2.5" stroke-linecap="round" />
+  <!--Soft Blush-->
+  <circle cx="94" cy="124" r="6" fill="#FFB5A7" fill-opacity="0.55" />
+  <circle cx="146" cy="124" r="6" fill="#FFB5A7" fill-opacity="0.55" />
+  <!--Warm Empathetic Smile-->
+  <path d="M109 131C114 137 126 137 131 131" stroke="#1D1A39" stroke-width="3" stroke-linecap="round" />
+</svg>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240" fill="none">
+  <defs>
+    <linearGradient id="bgBimo" x1="0" y1="0" x2="240" y2="240" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#D8F3DC" />
+      <stop offset="100%" stop-color="#CDB4DB" />
+    </linearGradient>
+  </defs>
+  <rect width="240" height="240" rx="48" fill="url(#bgBimo)" />
+  <circle cx="120" cy="120" r="102" fill="#FFFFFF" fill-opacity="0.75" />
+  <!--Suit / Clinical Jacket-->
+  <path d="M42 240C46 188 76 168 120 168C164 168 194 188 198 240H42Z" fill="#1D1A39" />
+  <path d="M94 168L120 222L146 168H94Z" fill="#F4EEF8" />
+  <path d="M116 176L124 176L126 220L120 226L114 220L116 176Z" fill="#6B5779" />
+  <!--Neck-->
+  <rect x="106" y="144" width="28" height="28" rx="10" fill="#F7D6C4" />
+  <!--Ears-->
+  <circle cx="78" cy="114" r="8" fill="#F7D6C4" />
+  <circle cx="162" cy="114" r="8" fill="#F7D6C4" />
+  <!--Face-->
+  <ellipse cx="120" cy="112" rx="41" ry="44" fill="#F7D6C4" />
+  <!--Neat Hair-->
+  <path d="M77 102C77 70 95 54 120 54C145 54 163 70 163 102C155 86 142 78 120 78C98 78 85 86 77 102Z" fill="#1D1A39" />
+  <!--Glasses-->
+  <rect x="91" y="103" width="23" height="16" rx="5" stroke="#1D1A39" stroke-width="2.8" fill="#FFFFFF" fill-opacity="0.3" />
+  <rect x="126" y="103" width="23" height="16" rx="5" stroke="#1D1A39" stroke-width="2.8" fill="#FFFFFF" fill-opacity="0.3" />
+  <line x1="114" y1="110" x2="126" y2="110" stroke="#1D1A39" stroke-width="2.8" />
+  <!--Eyes-->
+  <circle cx="102.5" cy="111" r="3" fill="#1D1A39" />
+  <circle cx="137.5" cy="111" r="3" fill="#1D1A39" />
+  <!--Eyebrows-->
+  <path d="M94 98C99 95 107 95 112 98" stroke="#1D1A39" stroke-width="3" stroke-linecap="round" />
+  <path d="M128 98C133 95 141 95 146 98" stroke="#1D1A39" stroke-width="3" stroke-linecap="round" />
+  <!--Warm Smile-->
+  <path d="M108 131C114 137 126 137 132 131" stroke="#1D1A39" stroke-width="3" stroke-linecap="round" />
+</svg>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="selenaBg512" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#CDB4DB" />
+      <stop offset="55%" stop-color="#FFC8DD" />
+      <stop offset="100%" stop-color="#F4EEF8" />
+    </linearGradient>
+    <linearGradient id="selenaHeart512" x1="180" y1="180" x2="360" y2="360" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFC8DD" />
+      <stop offset="100%" stop-color="#CDB4DB" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="116" fill="url(#selenaBg512)" />
+  <circle cx="256" cy="256" r="192" fill="#FAFAFA" fill-opacity="0.94" />
+  <!-- Calming Crescent Moon -->
+  <path
+    d="M297 138C233 147.6 184 203 184 270C184 343.6 243.6 403.2 317.2 403.2C339.7 403.2 360.9 397.6 379.5 387.7C355.1 407.1 324.2 418.7 290.5 418.7C211 418.7 146.5 354.2 146.5 274.7C146.5 201 201.9 140.2 273.3 131.7C281.4 130.7 289.4 132.9 297 138Z"
+    fill="#6B5779"
+  />
+  <!-- Protective Heart Emblem -->
+  <path
+    d="M304 220C291.2 205.1 268 205.1 255.2 219.2C242.4 205.1 219.2 205.1 206.4 220C192.5 236.3 193.6 261.1 209.9 276.3L255.2 318.7L300.5 276.3C316.8 261.1 317.9 236.3 304 220Z"
+    fill="url(#selenaHeart512)"
+    stroke="#1D1A39"
+    stroke-width="10"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <!-- Sparkle Star -->
+  <path
+    d="M357 160L364 178L382 185L364 192L357 210L350 192L332 185L350 178L357 160Z"
+    fill="#1D1A39"
+  />
+</svg>
+
