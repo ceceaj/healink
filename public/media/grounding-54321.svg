@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" fill="none">
+  <defs>
+    <linearGradient id="bgGround" x1="0" y1="0" x2="640" y2="360" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFF0F5" />
+      <stop offset="50%" stop-color="#F4EEF8" />
+      <stop offset="100%" stop-color="#FAFAFA" />
+    </linearGradient>
+  </defs>
+
+  <rect width="640" height="360" rx="28" fill="url(#bgGround)" />
+  <rect x="12" y="12" width="616" height="336" rx="22" stroke="#FFC8DD" stroke-width="2" fill="none" />
+
+  <rect x="32" y="26" width="236" height="28" rx="14" fill="#FFFFFF" stroke="#FFC8DD" stroke-width="1.5" />
+  <text x="150" y="44" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="800" fill="#6B5779">HEALINK • TEKNIK GROUNDING</text>
+
+  <text x="32" y="80" font-family="system-ui, sans-serif" font-size="22" font-weight="800" fill="#1D1A39">Metode Grounding 5-4-3-2-1</text>
+  <text x="32" y="102" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#4A4E69">Mengembalikan kesadaran penuh ke saat ini saat pikiran terasa penuh atau cemas.</text>
+
+  <!-- 5 Items Row -->
+  <g transform="translate(32, 126)">
+    <rect width="108" height="178" rx="20" fill="#FFFFFF" stroke="#CDB4DB" stroke-width="2" />
+    <circle cx="54" cy="48" r="24" fill="#CDB4DB" />
+    <text x="54" y="55" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="800" fill="#1D1A39">5</text>
+    <text x="54" y="96" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="800" fill="#1D1A39">LIHAT</text>
+    <text x="54" y="116" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#4A4E69">5 benda yang</text>
+    <text x="54" y="130" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#4A4E69">ada di sekitar</text>
+    <text x="54" y="144" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#4A4E69">pandanganmu</text>
+  </g>
+
+  <g transform="translate(149, 126)">
+    <rect width="108" height="178" rx="20" fill="#FFFFFF" stroke="#FFC8DD" stroke-width="2" />
+    <circle cx="54" cy="48" r="24" fill="#FFC8DD" />
+    <text x="54" y="55" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="800" fill="#1D1A39">4</text>
+    <text x="54" y="96" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="800" fill="#1D1A39">SENTUH</text>
+    <text x="54" y="116" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#4A4E69">4 tekstur kain,</text>
+    <text x="54" y="130" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#4A4E69">meja, atau</text>
+    <text x="54" y="144" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#4A4E69">permukaan kursi</text>
+  </g>
+
+  <g transform="translate(266, 126)">
+    <rect width="108" height="178" rx="20" fill="#FFFFFF" stroke="#CDB4DB" stroke-width="2" />
+    <circle cx="54" cy="48" r="24" fill="#E7D8F3" />
+    <text x="54" y="55" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="800" fill="#1D1A39">3</text>
+    <text x="54" y="96" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="800" fill="#1D1A39">DENGAR</text>
+    <text x="54" y="116" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#4A4E69">3 suara lembut</text>
+    <text x="54" y="130" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#4A4E69">atau napasmu</text>
+    <text x="54" y="144" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#4A4E69">saat ini</text>
+  </g>
+
+  <g transform="translate(383, 126)">
+    <rect width="108" height="178" rx="20" fill="#FFFFFF" stroke="#95D5B2" stroke-width="2" />
+    <circle cx="54" cy="48" r="24" fill="#D8F3DC" />
+    <text x="54" y="55" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="800" fill="#1D1A39">2</text>
+    <text x="54" y="96" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="800" fill="#1D1A39">HIRUP</text>
+    <text x="54" y="116" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#4A4E69">2 aroma udara,</text>
+    <text x="54" y="130" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#4A4E69">teh hangat, atau</text>
+    <text x="54" y="144" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#4A4E69">minyak kayu putih</text>
+  </g>
+
+  <g transform="translate(500, 126)">
+    <rect width="108" height="178" rx="20" fill="#FFFFFF" stroke="#FFC8DD" stroke-width="2" />
+    <circle cx="54" cy="48" r="24" fill="#FFE5EC" />
+    <text x="54" y="55" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="800" fill="#1D1A39">1</text>
+    <text x="54" y="96" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="800" fill="#1D1A39">AFIRMASI</text>
+    <text x="54" y="116" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#4A4E69">1 kalimat lembut</text>
+    <text x="54" y="130" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#4A4E69">"Aku aman pada</text>
+    <text x="54" y="144" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#4A4E69">detik ini"</text>
+  </g>
+
+  <text x="320" y="330" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" fill="#6B5779">Pelan-pelan saja. Pijakkan kedua telapak kakimu di lantai dengan tenang 🌿</text>
+</svg>

@@ -1,32 +1,37 @@
 import type { Metadata, Viewport } from "next";
-import { Nunito } from "next/font/google";
 import "./globals.css";
-import { SelenaProvider } from "@/context/SelenaContext";
-
-const nunito = Nunito({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-nunito",
-  display: "swap",
-});
+import { HealinkProvider } from "@/context/HealinkContext";
 
 export const metadata: Metadata = {
-  title: "SELENA - Ruang Aman Pemulihan",
+  title:
+    "HEALINK: SAFETY LEARNING — Laboratorium Perlindungan Anak Desa Cibodas",
   description:
-    "Self-awareness, Emotional understanding, Listening, Empathy, Nurturing, Acceptance. Aman, Terpercaya, dan Membantu (ATM).",
+    "Media Pembelajaran Keamanan Diri & Perlindungan Anak Berbasis AI — Kemitraan JEKATA Purwakarta & Yayasan CARE Peduli untuk Anak Desa Cibodas.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "SELENA",
+    title: "HEALINK KIDS",
   },
   icons: {
     icon: [
-      { url: "/icons/icon-192x192.svg", sizes: "192x192", type: "image/svg+xml" },
-      { url: "/icons/icon-512x512.svg", sizes: "512x512", type: "image/svg+xml" },
+      {
+        url: "/icons/icon-192x192.svg",
+        sizes: "192x192",
+        type: "image/svg+xml",
+      },
+      {
+        url: "/icons/icon-512x512.svg",
+        sizes: "512x512",
+        type: "image/svg+xml",
+      },
     ],
     apple: [
-      { url: "/icons/icon-192x192.svg", sizes: "192x192", type: "image/svg+xml" },
+      {
+        url: "/icons/icon-192x192.svg",
+        sizes: "192x192",
+        type: "image/svg+xml",
+      },
     ],
   },
 };
@@ -34,9 +39,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
-  themeColor: "#CDB4DB",
+  maximumScale: 5,
+  themeColor: "#10B981",
 };
 
 export default function RootLayout({
@@ -45,13 +49,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className={nunito.variable}>
-      <body className="min-h-screen bg-[#EFEFEF] text-selena-text font-sans antialiased flex justify-center selection:bg-selena-pink selection:text-selena-text">
-        <SelenaProvider>
-          <div className="w-full max-w-md mx-auto min-h-screen bg-[#FAFAFA] text-selena-text shadow-xl relative flex flex-col overflow-x-hidden">
+    <html lang="id">
+      <body className="min-h-screen bg-[#F7FBF7] text-[#1E293B] font-sans antialiased selection:bg-[#FACC15] selection:text-[#064E3B]">
+        <HealinkProvider>
+          <div className="w-full min-h-screen bg-gradient-to-b from-[#F7FBF7] via-[#FFFDF5] to-[#ECFDF5]/40 text-[#1E293B] relative flex flex-col overflow-x-hidden">
             {children}
           </div>
-        </SelenaProvider>
+        </HealinkProvider>
       </body>
     </html>
   );

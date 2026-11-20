@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" fill="none">
+  <defs>
+    <linearGradient id="bgBreath" x1="0" y1="0" x2="640" y2="360" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F4EEF8" />
+      <stop offset="55%" stop-color="#FFF0F5" />
+      <stop offset="100%" stop-color="#FAFAFA" />
+    </linearGradient>
+    <linearGradient id="circleInhale" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#CDB4DB" />
+      <stop offset="100%" stop-color="#E7D8F3" />
+    </linearGradient>
+    <linearGradient id="circleHold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFC8DD" />
+      <stop offset="100%" stop-color="#FFE1ED" />
+    </linearGradient>
+    <linearGradient id="circleExhale" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#D8F3DC" />
+      <stop offset="100%" stop-color="#B7E4C7" />
+    </linearGradient>
+  </defs>
+
+  <rect width="640" height="360" rx="28" fill="url(#bgBreath)" />
+  <rect x="12" y="12" width="616" height="336" rx="22" stroke="#CDB4DB" stroke-opacity="0.5" stroke-width="2" fill="none" />
+
+  <!-- Header Badge -->
+  <rect x="32" y="28" width="248" height="28" rx="14" fill="#FFFFFF" stroke="#CDB4DB" stroke-width="1.5" />
+  <text x="156" y="46" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="800" fill="#6B5779">HEALINK • PANDUAN VISUAL SOMATIK</text>
+
+  <text x="32" y="84" font-family="system-ui, sans-serif" font-size="22" font-weight="800" fill="#1D1A39">Teknik Pernapasan Tenang 4-7-8</text>
+  <text x="32" y="106" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#4A4E69">Menurunkan detak jantung &amp; mengirim sinyal aman ke sistem saraf saat panik atau sesak.</text>
+
+  <!-- Step 1: 4 Detik -->
+  <g transform="translate(32, 130)">
+    <rect width="176" height="172" rx="22" fill="#FFFFFF" stroke="#CDB4DB" stroke-width="2" />
+    <circle cx="88" cy="64" r="38" fill="url(#circleInhale)" />
+    <text x="88" y="62" text-anchor="middle" font-family="system-ui, sans-serif" font-size="24" font-weight="800" fill="#1D1A39">4</text>
+    <text x="88" y="78" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="800" fill="#1D1A39">DETIK</text>
+    <text x="88" y="124" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="800" fill="#1D1A39">Tarik Napas</text>
+    <text x="88" y="142" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10.5" font-weight="600" fill="#4A4E69">Hirup udara lembut</text>
+    <text x="88" y="156" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10.5" font-weight="600" fill="#4A4E69">melalui hidung</text>
+  </g>
+
+  <!-- Arrow 1 -->
+  <path d="M214 216 L226 216" stroke="#6B5779" stroke-width="3" stroke-linecap="round" />
+  <path d="M222 211 L228 216 L222 221" stroke="#6B5779" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- Step 2: 7 Detik -->
+  <g transform="translate(232, 130)">
+    <rect width="176" height="172" rx="22" fill="#FFFFFF" stroke="#FFC8DD" stroke-width="2" />
+    <circle cx="88" cy="64" r="38" fill="url(#circleHold)" />
+    <text x="88" y="62" text-anchor="middle" font-family="system-ui, sans-serif" font-size="24" font-weight="800" fill="#1D1A39">7</text>
+    <text x="88" y="78" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="800" fill="#1D1A39">DETIK</text>
+    <text x="88" y="124" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="800" fill="#1D1A39">Tahan Lembut</text>
+    <text x="88" y="142" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10.5" font-weight="600" fill="#4A4E69">Rasakan ketenangan</text>
+    <text x="88" y="156" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10.5" font-weight="600" fill="#4A4E69">di dalam dada</text>
+  </g>
+
+  <!-- Arrow 2 -->
+  <path d="M414 216 L426 216" stroke="#6B5779" stroke-width="3" stroke-linecap="round" />
+  <path d="M422 211 L428 216 L422 221" stroke="#6B5779" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- Step 3: 8 Detik -->
+  <g transform="translate(432, 130)">
+    <rect width="176" height="172" rx="22" fill="#FFFFFF" stroke="#95D5B2" stroke-width="2" />
+    <circle cx="88" cy="64" r="38" fill="url(#circleExhale)" />
+    <text x="88" y="62" text-anchor="middle" font-family="system-ui, sans-serif" font-size="24" font-weight="800" fill="#1D1A39">8</text>
+    <text x="88" y="78" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="800" fill="#1D1A39">DETIK</text>
+    <text x="88" y="124" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="800" fill="#1D1A39">Hembuskan Pelan</text>
+    <text x="88" y="142" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10.5" font-weight="600" fill="#4A4E69">Lepaskan lewat mulut</text>
+    <text x="88" y="156" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10.5" font-weight="600" fill="#4A4E69">seperti meniup lilin</text>
+  </g>
+
+  <!-- Bottom Note -->
+  <text x="320" y="330" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" fill="#6B5779">Ulangi siklus ini 3 sampai 4 kali dengan ritmemu sendiri. Kamu aman di sini 💜</text>
+</svg>

@@ -1,65 +1,72 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 
-export interface IncomingChatTurn {
+export interface IncomingTurn {
   role: "user" | "model";
   text: string;
 }
 
-interface ChatRequestBody {
-  messages?: IncomingChatTurn[];
-  userName?: string;
+export interface LearningCardAttachment {
+  title: string;
+  pillar: string;
+  emoji: string;
+  description: string;
+  href: string;
+  ctaLabel: string;
+  bgClass: string;
+  borderClass: string;
 }
 
-const CRISIS_KEYWORDS = [
+interface ChatBody {
+  messages?: IncomingTurn[];
+  childName?: string;
+}
+
+const TRUSTED_ADULT_GUARDRAIL_REPLY =
+  "Kamu hebat sudah berani bercerita. Aku cuma robot teman belajar, jadi aku tidak bisa menangani masalah ini sendirian. Yuk, segera ceritakan hal ini ke orang dewasa yang kamu percaya—seperti Orang Tua, Guru, atau Kakak Relawan JEKATA di dekatmu ya.";
+
+const OUT_OF_SCOPE_REPLY =
+  "Halo Sahabat! Aku Sahabat HEALINK yang khusus menemanimu belajar tentang 4 Pulau Keamanan Diri (Aturan Baju Renang, Mengenal Perasaan, Situasi Aman, dan Berani Minta Tolong). Yuk tanya tentang topik keamanan diri atau minta dongeng keberanian ya! 🦉✨";
+
+const CASE_OR_DIAGNOSIS_KEYWORDS = [
+  "disentuh paksa",
+  "dipukul",
+  "disakiti",
+  "dilecehkan",
+  "dicabuli",
+  "diancam",
+  "dipaksa buka baju",
+  "sentuh kemaluan",
+  "trauma berat",
+  "depresi",
+  "diagnosis",
+  "psikiater",
   "bunuh diri",
-  "mati",
-  "menyerah",
-  "akhiri hidup",
   "sakiti diri",
-  "lukai diri",
-  "ingin lenyap",
-  "tidak kuat hidup",
+  "aku takut ada yang menyentuhku",
+  "ada orang menyentuh",
 ];
 
 const OUT_OF_SCOPE_KEYWORDS = [
-  "coding",
   "matematika",
+  "perkalian",
+  "pembagian",
+  "pr sekolah",
   "politik",
-  "cuaca",
-  "resep",
-  "bola",
-  "game",
+  "presiden",
+  "coding",
   "javascript",
   "python",
-  "algoritma",
-  "presiden",
-  "sepak bola",
+  "free fire",
+  "mobile legends",
+  "roblox",
+  "resep masakan",
   "kripto",
-  "saham",
 ];
 
-const OUT_OF_SCOPE_REFUSAL =
-  "Maaf ya, aku difokuskan khusus untuk menemani perjalanan pemulihan emosional dan kesehatan mentalmu. Ada perasaan atau cerita yang ingin kamu bagikan hari ini?";
-
-function buildSystemInstruction(userName: string): string {
-  return `Kamu adalah "SELENA AI" (Self-awareness, Emotional understanding, Listening, Empathy, Nurturing, Acceptance), pendamping Psychological First Aid (PFA) yang hangat, tenang, dan berempati tinggi untuk penyintas pelecehan seksual dan individu yang mengalami tekanan kesehatan mental di Indonesia.
-Nama samaran pengguna saat ini adalah "${userName}".
-
-ATURAN UTAMA & KERANGKA RESPONS PFA (WAJIB DIIKUTI):
-1. Identitas & Bahasa: Gunakan Bahasa Indonesia yang lembut, menenangkan, penuh empati, dan bebas penghakiman (non-judgmental).
-2. Kerangka 3 Langkah PFA:
-   - Langkah 1 (Validasi Emosi): Validasi perasaan pengguna terlebih dahulu tanpa menghakimi atau meremehkan.
-   - Langkah 2 (Penguatan Korban Tidak Bersalah): Tegaskan dengan hangat bahwa trauma atau pelecehan seksual TIDAK PERNAH menjadi kesalahan korban (bukan karena pakaian, waktu, atau respons membeku/freeze).
-   - Langkah 3 (Regulasi & Langkah Kecil): Tawarkan latihan grounding lembut seperti pernapasan 4-7-8 (tarik napas 4 detik, tahan 7 detik, hembuskan 8 detik) atau sarankan berkonsultasi dengan Psikolog Klinis Terverifikasi di fitur Konsultasi SELENA.
-3. Guardrail Medis Ketat: JANGAN PERNAH memberikan diagnosis medis atau psikiatris klinis (seperti mendiagnosis PTSD, depresi klinis, atau gangguan bipolar). Selalu arahkan ke psikolog/psikiater profesional untuk asesmen klinis.
-4. Guardrail Topik Di Luar Cakupan (Out-of-Scope): Tolak dengan sopan segala pertanyaan di luar kesehatan mental, pemulihan trauma, pelecehan seksual, self-care, atau fitur aplikasi SELENA (misalnya coding, matematika, politik, resep masakan, olahraga, cuaca, trivia). Gunakan kalimat penolakan persis ini: "${OUT_OF_SCOPE_REFUSAL}"
-5. Protokol Krisis & Self-Harm: Jika pengguna menunjukkan keinginan bunuh diri, menyakiti diri sendiri, atau krisis akut, prioritaskan keselamatan jiwa secara penuh, berikan dukungan darurat yang menenangkan, dan cantumkan kontak darurat: Layanan SEJIWA 119 ext. 8 dan Halo KemenPPPA SAPA 129.`;
-}
-
-function detectCrisis(text: string): boolean {
+function detectNeedsTrustedAdult(text: string): boolean {
   const lower = text.toLowerCase();
-  return CRISIS_KEYWORDS.some((kw) => lower.includes(kw));
+  return CASE_OR_DIAGNOSIS_KEYWORDS.some((kw) => lower.includes(kw));
 }
 
 function detectOutOfScope(text: string): boolean {
@@ -67,154 +74,228 @@ function detectOutOfScope(text: string): boolean {
   return OUT_OF_SCOPE_KEYWORDS.some((kw) => lower.includes(kw));
 }
 
-function buildContextAwareFallback(userMessage: string, userName: string) {
-  const lower = userMessage.toLowerCase();
+function matchLearningCard(
+  userText: string,
+  aiText?: string
+): LearningCardAttachment | null {
+  const combined = `${userText} ${aiText || ""}`.toLowerCase();
 
-  if (detectCrisis(lower)) {
+  if (
+    combined.includes("baju renang") ||
+    combined.includes("batasan pribadi") ||
+    combined.includes("tubuhku berharga") ||
+    combined.includes("bilang tidak") ||
+    combined.includes("bagian pribadi")
+  ) {
     return {
-      reply: `Halo ${userName}, aku sangat peduli dengan keselamatan dan keberadaanmu saat ini 💜 Rasa sakit yang sedang kamu pikul mungkin terasa begitu berat, namun kamu sangat berharga dan tidak harus menghadapi gelap ini sendirian. Mohon segera hubungi pendamping darurat di **Layanan SEJIWA 119 ext. 8** atau **Halo KemenPPPA SAPA 129**, atau klik tombol Konsultasi Psikolog di bawah ini sekarang juga.`,
-      isCrisis: true,
-      isFallback: true,
+      title: "Pulau 1: Tubuhku Berharga (Batasan Pribadi)",
+      pillar: "Aturan Baju Renang & Berkata TIDAK",
+      emoji: "🛡️🩱",
+      description:
+        "Pelajari 4 cerita bergambar tentang menjaga bagian tubuh pribadi dan 3 Jurus Jagoan!",
+      href: "/anak/materi/batasan-pribadi",
+      ctaLabel: "Buka Cerita Tubuhku Berharga →",
+      bgClass: "bg-[#E0F2FE]",
+      borderClass: "border-[#0284C7]",
     };
   }
 
-  if (detectOutOfScope(lower)) {
+  if (
+    combined.includes("emosi") ||
+    combined.includes("perasaan") ||
+    combined.includes("alarm tubuh") ||
+    combined.includes("napas balon") ||
+    combined.includes("berdebar")
+  ) {
     return {
-      reply: OUT_OF_SCOPE_REFUSAL,
-      isCrisis: false,
-      isFallback: true,
-      isOutOfScope: true,
+      title: "Pulau 2: Kenali Perasaanku (Pengenalan Emosi)",
+      pillar: "Radar Emosi & Alarm Tubuh",
+      emoji: "💛🎈",
+      description:
+        "Kenali sinyal alarm tubuh saat tidak nyaman dan latihan Napas Balon 1-2-3!",
+      href: "/anak/materi/pengenalan-emosi",
+      ctaLabel: "Buka Cerita Kenali Perasaanku →",
+      bgClass: "bg-[#FEF3C7]",
+      borderClass: "border-[#D97706]",
     };
   }
 
-  if (lower.includes("panic attack") || lower.includes("panik") || lower.includes("sesak")) {
+  if (
+    combined.includes("minta tolong") ||
+    combined.includes("cerita ke siapa") ||
+    combined.includes("orang dewasa") ||
+    combined.includes("5 jari") ||
+    combined.includes("takut") ||
+    combined.includes("jekata")
+  ) {
     return {
-      reply: `Aku di sini menemanimu, ${userName} 🌸\n\n**1. Validasi Perasaanmu:** Rasa panik, dada terasa sesak, atau jantung berdebar kencang yang kamu alami saat ini sepenuhnya valid. Sistem sarafmu sedang bereaksi terhadap pemicu stres, namun kamu berada di ruang yang aman sekarang.\n\n**2. Kamu Tidak Bersalah:** Reaksi tubuh ini bukanlah tanda kelemahan, dan kamu sama sekali tidak bersalah atas pengalaman traumatis yang memicunya.\n\n**3. Langkah Kecil (Napas 4-7-8):** Mari kita tenangkan sistem sarafmu perlahan: tarik napas lembut lewat hidung selama 4 detik, tahan 7 detik, lalu hembuskan perlahan lewat mulut selama 8 detik. Bila kamu butuh teman bicara profesional, Psikolog SELENA siap mendampingimu di menu Konsultasi.`,
-      isCrisis: false,
-      isFallback: true,
-      recommendedArticleSlug: "pertolongan-pertama-saat-mengalami-panic-attack",
-      recommendedArticleTitle: "Pertolongan Pertama Saat Mengalami Panic Attack",
+      title: "Pulau 4: Berani Minta Tolong",
+      pillar: "Lingkaran 5 Jari Orang Dewasa Tepercaya",
+      emoji: "🤝🖐️",
+      description:
+        "Kenali 5 orang dewasa pelindung di sekitarmu (Orang Tua, Guru, Relawan JEKATA) dan cara bicara dengan berani.",
+      href: "/anak/materi/cari-pertolongan",
+      ctaLabel: "Buka Cerita Berani Minta Tolong →",
+      bgClass: "bg-[#FFE4E6]",
+      borderClass: "border-[#E11D48]",
     };
   }
 
-  if (lower.includes("verbal") || lower.includes("pelecehan") || lower.includes("catcalling")) {
+  if (
+    combined.includes("rahasia") ||
+    combined.includes("permen") ||
+    combined.includes("orang asing") ||
+    combined.includes("situasi aman") ||
+    combined.includes("simulasi")
+  ) {
     return {
-      reply: `Terima kasih sudah berani membicarakan hal ini, ${userName} 💜\n\n**1. Validasi Perasaanmu:** Pelecehan verbal (seperti siulan, komentar tubuh, atau candaan seksual yang merendahkan) maupun non-verbal adalah pelanggaran batasan yang nyata. Rasa tidak nyaman, marah, atau takut yang kamu rasakan sangat wajar.\n\n**2. Kamu Tidak Bersalah:** Ingatlah bahwa pelecehan adalah 100% kesalahan pelaku, bukan salah pakaianmu, keberadaanmu, atau reaksimu saat kejadian.\n\n**3. Langkah Kecil Saat Ini:** Tarik napas lembut dengan teknik 4-7-8 untuk menenangkan detak jantungmu. Kamu juga dapat membaca panduan psikoedukasi kami atau berdiskusi secara rahasia dengan Psikolog SELENA.`,
-      isCrisis: false,
-      isFallback: true,
-      recommendedArticleSlug: "mengenal-pelecehan-verbal-non-verbal-serta-dampaknya",
-      recommendedArticleTitle: "Mengenal Pelecehan Verbal & Non-Verbal serta Dampaknya",
+      title: "Game Simulasi: Aman atau Tidak Aman?",
+      pillar: "Latihan Detektif Keamanan Diri",
+      emoji: "🎮🔍",
+      description:
+        "Latih kemampuanmu membedakan Kejutan Baik vs Rahasia Buruk dalam 6 skenario interaktif!",
+      href: "/anak/simulasi",
+      ctaLabel: "Mainkan Simulasi Sekarang →",
+      bgClass: "bg-[#D1FAE5]",
+      borderClass: "border-[#059669]",
     };
   }
 
-  if (lower.includes("bersalah") || lower.includes("malu") || lower.includes("salahku") || lower.includes("freeze")) {
-    return {
-      reply: `Aku mendengarkanmu tanpa menghakimi sedikit pun, ${userName} 🌸\n\n**1. Validasi Perasaanmu:** Sangat manusiawi jika muncul pikiran mengapa waktu itu tidak melawan atau berteriak. Perasaan malu dan menyalahkan diri sendiri sering muncul pasca kejadian traumatis.\n\n**2. Kamu Tidak Bersalah:** Secara biologis, otak manusia memiliki respons otomatis membeku saat menghadapi ancaman mendadak demi melindungi keselamatan jiwa. Membeku bukan berarti mengizinkan, kamu sama sekali tidak bersalah.\n\n**3. Langkah Kecil Saat Ini:** Letakkan satu tangan di dada, rasakan hembusan napas 4-7-8 secara perlahan, dan izinkan dirimu beristirahat. Jika beban ini terasa berat, mari berbincang dengan Psikolog SELENA.`,
-      isCrisis: false,
-      isFallback: true,
-      recommendedArticleSlug: "self-love-berdamai-dengan-diri-sendiri-tanpa-menyalahkan-diri",
-      recommendedArticleTitle: "Self-Love: Berdamai dengan Diri Sendiri Tanpa Menyalahkan Diri",
-    };
+  return null;
+}
+
+function buildSystemInstruction(childName: string): string {
+  return `Kamu adalah Sahabat HEALINK, asisten belajar ramah anak untuk program Safety Learning JEKATA Purwakarta & Yayasan CARE Peduli di Desa Cibodas.
+Kamu sedang menemani anak bernama "${childName}".
+
+CAKUPAN & BATASAN KETAT (WAJIB DIIKUTI):
+1. Ruang Lingkup Edukasi: HANYA menjawab pertanyaan seputar 4 pilar keamanan diri anak:
+   - Batasan Pribadi (Aturan Baju Renang: bibir, dada, kemaluan, dan pantat adalah bagian pribadi; berani berkata TIDAK).
+   - Pengenalan Emosi (Senang, Sedih, Takut, Marah, serta mengenali sinyal Alarm Tubuh saat merasa tidak nyaman).
+   - Situasi Aman vs Tidak Aman (Kejutan Baik vs Rahasia Buruk, menolak ajakan/hadiah ke tempat sepi).
+   - Cara Mencari Pertolongan (Lingkaran 5 Jari Orang Dewasa Tepercaya: Orang Tua, Keluarga dekat, Guru, Kakak Relawan JEKATA, dan Petugas Desa).
+   Kamu juga boleh menceritakan dongeng singkat ramah anak tentang keberanian menjaga diri, atau membantu Relawan JEKATA mencari ide ice-breaking/fasilitasi edukasi anak.
+2. Hard Guardrail 1 (DILARANG Mendiagnosis & DILARANG Menangani Kasus): Jika anak menyebutkan dirinya disakiti, disentuh secara tidak pantas, mengalami kekerasan, atau meminta diagnosis psikologis, JANGAN mendiagnosis dan JANGAN menginvestigasi kasusnya. Balas persis dengan kalimat lembut ini:
+   "${TRUSTED_ADULT_GUARDRAIL_REPLY}"
+3. Hard Guardrail 2 (Topik di Luar Cakupan): Tolak dengan sopan topik yang tidak berkaitan (seperti PR matematika, politik, game online, atau coding) dan ajak kembali belajar keamanan diri.
+4. Gaya Bahasa: Gunakan Bahasa Indonesia yang ceria, hangat, kalimat pendek yang mudah dipahami anak SD, dan tidak menakut-nakuti.`;
+}
+
+function buildSmartLocalFallback(userText: string, childName: string): string {
+  const lower = userText.toLowerCase();
+
+  if (lower.includes("dongeng") || lower.includes("ceritain") || lower.includes("bilang tidak")) {
+    return `Yuk dengarkan dongeng singkat tentang **Kiko si Kelinci Pemberani**! 🐰🌟\n\nSuatu sore di pinggir lapangan desa, ada orang asing membawa wortel manis dan mengajak Kiko pergi ke kebun yang sepi. Perut Kiko terasa tidak nyaman—alarm tubuhnya berbunyi! Kiko langsung mundur, mengangkat tangan, dan berkata dengan suara lantang: **"TIDAK MAU!"** Lalu Kiko berlari ke arah Ibu dan Kakak Relawan JEKATA yang sedang berada di Balai Desa. Ibu memeluk Kiko dengan bangga karena Kiko berani menjaga dirinya tetap aman!`;
   }
 
-  return {
-    reply: `Terima kasih telah mempercayakan ceritamu kepadaku hari ini, ${userName} 💜\n\n**1. Validasi Perasaanmu:** Aku memvalidasi sepenuhnya rasa takut, cemas, sedih, maupun lelah yang sedang kamu rasakan. Di ruang aman SELENA, setiap emosimu berharga dan didengarkan tanpa penghakiman.\n\n**2. Kamu Tidak Bersalah:** Apa pun peristiwa menyakitkan yang pernah menimpamu, ketahuilah bahwa itu bukan kesalahanmu dan kamu berhak mendapatkan rasa aman.\n\n**3. Langkah Kecil Saat Ini:** Coba ambil jeda sejenak dengan pernapasan 4-7-8 (tarik napas 4 detik, tahan 7 detik, hembuskan 8 detik). Aku selalu ada di sini untuk mendengarkan, atau kamu bisa terhubung langsung dengan Psikolog terverifikasi SELENA untuk pendampingan lebih lanjut.`,
-    isCrisis: false,
-    isFallback: true,
-    recommendedArticleSlug: "membangun-batasan-diri-boundaries-pasca-trauma",
-    recommendedArticleTitle: "Membangun Batasan Diri (Boundaries) Pasca Trauma",
-  };
+  if (lower.includes("baju renang") || lower.includes("batasan") || lower.includes("tubuh")) {
+    return `Pertanyaan hebat, ${childName}! 🩱🛡️ **Aturan Baju Renang** artinya bagian tubuh kita yang tertutup baju renang—yaitu **dada, bagian di antara paha (kemaluan), dan pantat**, ditambah **bibir**—adalah bagian tubuh pribadi yang sangat berharga. Tidak ada seorang pun yang boleh melihat atau menyentuhnya. Kalau ada yang mencoba menyentuh, gunakan 3 Jurus Jagoan: teriak **TIDAK!**, **LARI** ke tempat ramai, dan **CERITA** ke orang tua atau Kakak Relawan JEKATA!`;
+  }
+
+  if (
+    lower.includes("takut") ||
+    lower.includes("cerita ke siapa") ||
+    lower.includes("minta tolong") ||
+    lower.includes("emosi")
+  ) {
+    return `Kalau kamu merasa takut, kaget, atau tidak nyaman, kamu tidak sendirian ya, ${childName}! 🖐️💛 Ingat **5 Jari Orang Dewasa Tepercaya** yang selalu siap melindungimu:\n1. Ayah dan Ibu di rumah\n2. Kakek, Nenek, atau Kakak kandung\n3. Bapak dan Ibu Guru di sekolah\n4. Kakak Relawan JEKATA di Desa Cibodas\n5. Pak RT/Perangkat Desa atau Polisi\n\nTarik napas balon 1-2-3 perlahan, lalu ceritakan kepada mereka sampai kamu dibantu!`;
+  }
+
+  if (lower.includes("ice breaking") || lower.includes("relawan") || lower.includes("fasilitasi")) {
+    return `Halo Kakak Relawan JEKATA! 📋✨ Untuk *ice-breaking* sesi edukasi 25+ anak di Desa Cibodas, Kakak bisa menggunakan permainan **"Lampu Merah, Lampu Hijau Keamanan"**: saat Kakak menyebut situasi aman (misal: *bersalaman dengan teman*), anak-anak melompat sambil berseru **"HIJAU AMAN!"**. Saat Kakak menyebut situasi berisiko (misal: *diajak orang asing ke tempat sepi*), anak-anak menyilangkan tangan di dada sambil berseru **"MERAH TIDAK!"**.`;
+  }
+
+  return `Halo ${childName} yang hebat! 🦉✨ Aku Sahabat HEALINK, teman belajarmu dari JEKATA Purwakarta. Kamu bisa memintaku menceritakan dongeng berani bilang TIDAK, bertanya tentang Aturan Baju Renang, mengenal Alarm Tubuh, atau cara meminta pertolongan ke 5 Jari Pelindung!`;
 }
 
 export async function POST(req: NextRequest) {
   let latestUserText = "";
-  let userName = "Sahabat SELENA";
+  let childName = "Sahabat Ceria";
 
   try {
-    const body = (await req.json()) as ChatRequestBody;
+    const body = (await req.json()) as ChatBody;
     const messages = Array.isArray(body.messages) ? body.messages : [];
-    userName = body.userName?.trim() || "Sahabat SELENA";
+    childName = body.childName?.trim() || "Sahabat Ceria";
 
-    const lastUserTurn = [...messages]
-      .reverse()
-      .find((m) => m.role === "user");
-    latestUserText = lastUserTurn?.text?.trim() || "";
+    const lastUser = [...messages].reverse().find((m) => m.role === "user");
+    latestUserText = lastUser?.text?.trim() || "";
 
     if (!latestUserText) {
-      return NextResponse.json(
-        {
-          reply: `Halo ${userName} 🌸 Aku mendengarkanmu. Ceritakan apa saja yang sedang kamu rasakan hari ini.`,
-          isCrisis: false,
-          isFallback: false,
-        },
-        { status: 200 }
-      );
+      return NextResponse.json({
+        reply: `Halo ${childName}! 🦉 Aku Sahabat HEALINK. Mau dengar dongeng keberanian atau belajar Aturan Baju Renang hari ini?`,
+        needsTrustedAdult: false,
+        learningCard: null,
+      });
     }
 
-    // Immediate deterministic Crisis / Self-Harm Protocol check
-    const isCrisisInput = detectCrisis(latestUserText);
-
-    // Immediate deterministic Out-of-Scope Guardrail check
-    if (!isCrisisInput && detectOutOfScope(latestUserText)) {
-      return NextResponse.json(
-        {
-          reply: OUT_OF_SCOPE_REFUSAL,
-          isCrisis: false,
-          isOutOfScope: true,
-          isFallback: false,
-        },
-        { status: 200 }
-      );
+    // Hard Guardrail 1: Immediate check for case disclosure / being hurt / diagnosis request
+    if (detectNeedsTrustedAdult(latestUserText)) {
+      return NextResponse.json({
+        reply: TRUSTED_ADULT_GUARDRAIL_REPLY,
+        needsTrustedAdult: true,
+        learningCard: matchLearningCard("minta tolong"),
+      });
     }
 
+    // Hard Guardrail 2: Out-of-scope check
+    if (detectOutOfScope(latestUserText)) {
+      return NextResponse.json({
+        reply: OUT_OF_SCOPE_REPLY,
+        needsTrustedAdult: false,
+        learningCard: null,
+      });
+    }
+
+    const preMatchedCard = matchLearningCard(latestUserText);
     const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey || apiKey.trim() === "") {
-      // Graceful fallback when GEMINI_API_KEY is not configured
-      const fallback = buildContextAwareFallback(latestUserText, userName);
-      return NextResponse.json(fallback, { status: 200 });
+
+    if (!apiKey || !apiKey.trim()) {
+      const fallbackReply = buildSmartLocalFallback(latestUserText, childName);
+      return NextResponse.json({
+        reply: fallbackReply,
+        needsTrustedAdult: false,
+        learningCard:
+          preMatchedCard || matchLearningCard(latestUserText, fallbackReply),
+        isFallback: true,
+      });
     }
 
     const ai = new GoogleGenAI({ apiKey });
-
-    const formattedContents = messages.map((m) => ({
-      role: m.role === "model" ? ("model" as const) : ("user" as const),
-      parts: [{ text: m.text }],
-    }));
-
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
-      contents: formattedContents,
+      contents: messages.map((m) => ({
+        role: m.role,
+        parts: [{ text: m.text }],
+      })),
       config: {
-        systemInstruction: buildSystemInstruction(userName),
-        temperature: 0.65,
-        maxOutputTokens: 900,
+        systemInstruction: buildSystemInstruction(childName),
+        temperature: 0.6,
+        maxOutputTokens: 500,
       },
     });
 
-    const aiText = response.text?.trim();
-    if (!aiText) {
-      const fallback = buildContextAwareFallback(latestUserText, userName);
-      return NextResponse.json(fallback, { status: 200 });
-    }
+    const aiText =
+      response.text?.trim() ||
+      buildSmartLocalFallback(latestUserText, childName);
 
-    const responseHasCrisis =
-      isCrisisInput ||
-      detectCrisis(aiText) ||
-      aiText.includes("119") ||
-      aiText.includes("SAPA 129");
+    const needsAdultInResponse =
+      detectNeedsTrustedAdult(aiText) ||
+      aiText.includes("Aku cuma robot teman belajar");
 
-    return NextResponse.json(
-      {
-        reply: aiText,
-        isCrisis: responseHasCrisis,
-        isFallback: false,
-      },
-      { status: 200 }
-    );
-  } catch (error) {
-    console.warn("SELENA AI API fallback triggered:", error);
-    const fallback = buildContextAwareFallback(latestUserText, userName);
-    return NextResponse.json(fallback, { status: 200 });
+    return NextResponse.json({
+      reply: needsAdultInResponse ? TRUSTED_ADULT_GUARDRAIL_REPLY : aiText,
+      needsTrustedAdult: needsAdultInResponse,
+      learningCard:
+        preMatchedCard || matchLearningCard(latestUserText, aiText),
+      isFallback: false,
+    });
+  } catch {
+    const fallbackReply = buildSmartLocalFallback(latestUserText, childName);
+    return NextResponse.json({
+      reply: fallbackReply,
+      needsTrustedAdult: false,
+      learningCard: matchLearningCard(latestUserText, fallbackReply),
+      isFallback: true,
+    });
   }
 }
-

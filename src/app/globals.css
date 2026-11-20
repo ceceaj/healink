@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,12 +9,12 @@
   body {
     margin: 0;
     padding: 0;
-    color: #1D1A39;
+    color: #1E293B;
+    background-color: #F7FBF7;
     -webkit-tap-highlight-color: transparent;
-    overscroll-behavior-y: none;
+    scroll-behavior: smooth;
   }
 
-  /* Enforce soft, approachable rounded corners globally on interactive elements & cards */
   button,
   input,
   textarea,
@@ -35,15 +37,4 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  .soothing-gradient-bg {
-    background: linear-gradient(
-      180deg,
-      #F8EDF9 0%,
-      #FFF2F7 28%,
-      #FFF9FA 55%,
-      #FAFAFA 85%,
-      #FFFFFF 100%
-    );
-  }
 }
-

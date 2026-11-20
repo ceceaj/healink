@@ -1,14 +1,14 @@
 {
-  "name": "SELENA - Ruang Aman Pemulihan",
-  "short_name": "SELENA",
-  "description": "Self-awareness, Emotional understanding, Listening, Empathy, Nurturing, Acceptance. Ruang aman pemulihan kesehatan mental & penyintas pelecehan seksual.",
+  "name": "HEALINK: SAFETY LEARNING - Laboratorium Perlindungan Anak",
+  "short_name": "HEALINK KIDS",
+  "description": "Media Pembelajaran Keamanan Diri & Perlindungan Anak Berbasis AI — Kemitraan JEKATA Purwakarta & Yayasan CARE Peduli di Desa Cibodas.",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#FAFAFA",
-  "theme_color": "#CDB4DB",
+  "background_color": "#FFFDF7",
+  "theme_color": "#38BDF8",
   "lang": "id-ID",
-  "categories": ["health", "medical", "lifestyle", "social"],
+  "categories": ["education", "kids", "lifestyle"],
   "icons": [
     {
       "src": "/icons/icon-192x192.svg",
@@ -24,4 +24,3 @@
     }
   ]
 }
-
